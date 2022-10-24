@@ -21,7 +21,6 @@ const listCategoriesIdServices = async (id: string): Promise<Properties[]> => {
       category: findCategory!,
     },
   });
-
   return listProperties;
 };
 export default listCategoriesIdServices;

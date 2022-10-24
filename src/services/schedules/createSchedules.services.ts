@@ -31,6 +31,10 @@ const createScheduleServices = async ({
     throw new AppError(404, "Property not found");
   }
 
+  if (hour > "18" || hour < "8") {
+    throw new AppError(400, "Unavailable time");
+  }
+
   const newSchedule = schedulesRepository.create({
     // date: date,
     // hour: hour,
