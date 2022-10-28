@@ -23,6 +23,7 @@ const updateUserController = async (req: Request, res: Response) => {
     );
   }
   const updatedUser = await updateUserServices(user, id);
+  // const plainUser = instanceToPlain(updatedUser);
   return res.status(200).json(updatedUser);
 };
 

@@ -42,6 +42,8 @@ export class Properties {
   @OneToMany(() => Schedules, (schedules) => schedules.properties)
   schedules: Schedules[];
 
-  @ManyToOne(() => Categories, { eager: true })
+  @ManyToOne(() => Categories, (categories) => categories.properties, {
+    eager: true,
+  })
   category: Categories;
 }

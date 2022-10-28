@@ -8,7 +8,7 @@ const schedulesRoutes = Router();
 
 schedulesRoutes.post("", createScheduleController);
 schedulesRoutes.get(
-  "schedules/properties/:id",
+  "/properties/:id",
   ensureAuthMiddleware,
   ensureIsAdmMiddlewares,
   listSchedulesPropertyController

@@ -2,9 +2,9 @@ import { Request, Response } from "express";
 import listCategoriesIdServices from "../../services/categories/listCategotyId.services";
 
 const listCategoryIdController = async (req: Request, res: Response) => {
-  const id = req.params.id;
+  const categoryId = req.params.id;
 
-  const categories = await listCategoriesIdServices(id);
-  return res.json(categories);
+  const properties = await listCategoriesIdServices(categoryId);
+  return res.json(properties);
 };
 export default listCategoryIdController;

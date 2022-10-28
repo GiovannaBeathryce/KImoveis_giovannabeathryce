@@ -1,7 +1,7 @@
 import AppDataSource from "../../data-source";
 import { IUserRequest } from "../../interfaces/users";
 import { User } from "../../entities/user.entity";
-import { hash } from "bcrypt";
+import { hash } from "bcryptjs";
 import { AppError } from "../../errors/appError";
 
 const createUserServices = async ({

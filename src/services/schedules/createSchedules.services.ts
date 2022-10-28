@@ -10,40 +10,48 @@ const createScheduleServices = async ({
   propertyId,
   date,
   hour,
-}: IScheduleRequest) => {
+}: IScheduleRequest): Promise<any> => {
   const userRepository = AppDataSource.getRepository(User);
   const propertyRepository = AppDataSource.getRepository(Properties);
   const schedulesRepository = AppDataSource.getRepository(Schedules);
+
+  const getHour = +hour.split(" : ")[0];
+  if (getHour < 8 || getHour >= 18) {
+    throw new AppError(400, "Unavailable time");
+  }
+
+  const getDay = new Date(date).getDay();
+  if (getDay === 6 || getDay === 0) {
+    throw new AppError(400, "Enter a working day");
+  }
+
+  const scheduleExist = await schedulesRepository.find();
+  const findSchedule = scheduleExist.find((scheduleExist) => scheduleExist);
 
   const userExists = await userRepository.findOneBy({
     id: userId,
   });
 
-  if (!userExists) {
-    throw new AppError(404, "User not found");
-  }
-
   const propertyExists = await propertyRepository.findOneBy({
     id: propertyId,
   });
 
-  if (!propertyExists) {
-    throw new AppError(404, "Property not found");
+  if (!userExists || !propertyExists) {
+    throw new AppError(404, "User or Property not found");
   }
 
-  if (hour > "18" || hour < "8") {
-    throw new AppError(400, "Unavailable time");
+  if (findSchedule) {
+    throw new AppError(400, "Unavailable date or time");
   }
 
   const newSchedule = schedulesRepository.create({
-    // date: date,
-    // hour: hour,
-    // user: userExists!.id,
-    // properties: propertyExists!.id,
+    date,
+    hour,
+    user: { id: userId },
+    properties: { id: propertyId },
   });
 
-  console.log(userExists);
-  console.log(propertyExists);
+  await schedulesRepository.save(newSchedule);
 
   return newSchedule;
 };
